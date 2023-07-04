@@ -1,6 +1,6 @@
 ﻿namespace ttt;
 
-public enum Value
+public enum Player
 {
     N, X, O
 }

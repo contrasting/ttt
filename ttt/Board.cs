@@ -3,17 +3,17 @@
 public class Board
 {
     // https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/multidimensional-arrays
-    private readonly Value[,] _board = new Value[3, 3];
+    private readonly Player[,] _board = new Player[3, 3];
 
-    public void Write(Position p, Value v)
+    public void Write(Position pos, Player player)
     {
         // TODO check position is empty?
-        _board[p.XAxisIndex, p.YAxisIndex] = v;
+        _board[pos.X, pos.Y] = player;
     }
 
-    public Value Read(Position position)
+    public Player Read(Position position)
     {
-        return _board[position.XAxisIndex, position.YAxisIndex];
+        return _board[position.X, position.Y];
     }
 
     public void Print()

@@ -2,21 +2,24 @@
 
 public class Position
 {
-    private readonly int[] _array = new int[2];
+    private readonly int _x, _y;
 
-    public Position(string stringRepresentation)
+    // https://stackoverflow.com/questions/4009013/call-one-constructor-from-another
+    public Position(string stringRepresentation) : this(stringRepresentation[0] - 'A', stringRepresentation[1] - '1')
     {
-        int xAxis = stringRepresentation[0] - 'A';
-        int yAxis = stringRepresentation[1] - '1';
-        if (xAxis < 0 || xAxis > 2 || yAxis < 0 || yAxis > 2)
+    }
+
+    public Position(int x, int y)
+    {
+        if (x < 0 || x > 2 || y < 0 || y > 2)
         {
             throw new ArgumentException("Position out of range");
         }
 
-        _array[0] = xAxis;
-        _array[1] = yAxis;
+        _x = x;
+        _y = y;
     }
-    
-    public int XAxisIndex => _array[0];
-    public int YAxisIndex => _array[1];
+
+    public int X => _x;
+    public int Y => _y;
 }
