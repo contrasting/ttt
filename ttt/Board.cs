@@ -9,7 +9,7 @@ public class Board
     {
         _board = new Player[3, 3];
     }
-    
+
     private Board(Player[,] board)
     {
         _board = board;
@@ -17,7 +17,6 @@ public class Board
 
     public void Write(Position pos, Player player)
     {
-        // TODO check position is empty?
         _board[pos.X, pos.Y] = player;
     }
 
@@ -42,6 +41,7 @@ public class Board
 
     public Board Copy()
     {
-        return new Board(_board);
+        // !!! copy array
+        return new Board((Player[,])_board.Clone());
     }
 }
