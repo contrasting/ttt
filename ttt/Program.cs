@@ -2,12 +2,21 @@
 
 using ttt;
 
-var board = new Board();
+Console.WriteLine("Welcome to TTT");
 
-board.Write(new Position("C1"), Player.O);
-board.Write(new Position("A1"), Player.O);
-board.Write(new Position("B1"), Player.O);
+// TODO
+var humanPlayer = Player.X;
+
+var board = new Board();
+var analyser = new Analyser(board);
+var game = new Game(analyser, humanPlayer);
+var input = new Input();
+
+var move = input.Read();
+
+if (analyser.IsValidMove(move))
+{
+    board.Write(move, humanPlayer);
+}
 
 board.Print();
-
-Console.WriteLine(new Analyser(board).IsValidMove(new Position("B1")));
