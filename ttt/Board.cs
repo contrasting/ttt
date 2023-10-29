@@ -33,7 +33,7 @@ public class Board
             Console.Write($"{y + 1} | ");
             for (int x = 0; x < 3; x++)
             {
-                Console.Write(_board[x, y]);
+                Console.Write(_board[x, y].Pretty());
             }
 
             Console.Write("\n");

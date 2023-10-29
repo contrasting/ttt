@@ -12,4 +12,18 @@ public static class PlayerExt
         if (player == Player.N) return Player.N;
         return player == Player.O ? Player.X : Player.O;
     }
+
+    public static string Pretty(this Player player)
+    {
+        switch (player)
+        {
+            case Player.X:
+                return "X";
+            case Player.O:
+                return "O";
+            case Player.N:
+            default:
+                return " ";
+        }
+    }
 }
