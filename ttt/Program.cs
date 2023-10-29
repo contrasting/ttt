@@ -10,4 +10,4 @@ board.Write(new Position("B1"), Player.O);
 
 board.Print();
 
-Console.WriteLine(new Game(board, playerTurn: Player.O).GetWinner());
+Console.WriteLine(new Analyser(board).IsValidMove(new Position("B1")));

@@ -3,7 +3,17 @@
 public class Board
 {
     // https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/multidimensional-arrays
-    private readonly Player[,] _board = new Player[3, 3];
+    private readonly Player[,] _board;
+
+    public Board()
+    {
+        _board = new Player[3, 3];
+    }
+    
+    private Board(Player[,] board)
+    {
+        _board = board;
+    }
 
     public void Write(Position pos, Player player)
     {
@@ -28,5 +38,10 @@ public class Board
 
             Console.Write("\n");
         }
+    }
+
+    public Board Copy()
+    {
+        return new Board(_board);
     }
 }
