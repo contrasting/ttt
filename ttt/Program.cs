@@ -42,11 +42,11 @@ void ComputerPlayerMove()
 
 board.Print();
 
-while (analyser.GetWinner() == Player.N)
+while (analyser.GetWinner() == Player.N && analyser.GetValidMoves().Count != 0)
 {
     HumanPlayerMove();
     board.Print();
-    if (analyser.GetWinner() != Player.N) break;
+    if (analyser.GetWinner() != Player.N || analyser.GetValidMoves().Count == 0) break;
     ComputerPlayerMove();
     board.Print();
 }
