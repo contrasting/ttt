@@ -86,4 +86,56 @@ public class Analyser
 
         return new Analyser(boardCopy).GetWinner() == player;
     }
+
+    public bool HasWinningMove(Player player)
+    {
+        foreach (var vm in GetValidMoves())
+        {
+            if (IsWinningMove(player, vm))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public float EvaluateMove(Player player, Position move)
+    {
+        if (!IsValidMove(move))
+        {
+            throw new ArgumentException("Attempting to evaluate invalid move");
+        }
+
+        if (IsWinningMove(player, move))
+        {
+            return 1;
+        }
+        
+        var boardCopy = _board.Copy();
+        
+        boardCopy.Write(move, player);
+        
+        var analyser = new Analyser(boardCopy);
+
+        if (analyser.HasWinningMove(player.Opponent()))
+        {
+            return -1;
+        }
+
+        // neither winning nor losing move. Continue evaluating
+        var evaluations = new List<float>();
+
+        foreach (var vm in analyser.GetValidMoves())
+        {
+            evaluations.Add(-1 * analyser.EvaluateMove(player.Opponent(), vm));
+        }
+
+        if (evaluations.Count == 0)
+        {
+            return 0;
+        }
+
+        return evaluations.Average();
+    }
 }

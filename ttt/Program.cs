@@ -29,21 +29,15 @@ void HumanPlayerMove()
 
 void ComputerPlayerMove()
 {
-    foreach (var vm in analyser.GetValidMoves()) {
-        if (analyser.IsWinningMove(computerPlayer, vm))
-        {
-            Console.WriteLine($"Computer plays {vm.Pretty()}");
-            board.Write(vm, computerPlayer);
-            return;
-        }
-    }
-    // TODO no winning moves, just play whatever
+    var evaluations = new Dictionary<Position, float>();
     foreach (var vm in analyser.GetValidMoves())
     {
-        Console.WriteLine($"Computer plays {vm.Pretty()}");
-        board.Write(vm, computerPlayer);
-        return;
+        evaluations[vm] = analyser.EvaluateMove(computerPlayer, vm);
     }
+    // https://stackoverflow.com/questions/10290838/how-to-get-max-value-from-dictionary
+    var bestMove = evaluations.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+    Console.WriteLine($"Computer plays {bestMove.Pretty()}");
+    board.Write(bestMove, computerPlayer);
 }
 
 board.Print();
