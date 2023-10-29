@@ -20,6 +20,11 @@ void HumanPlayerMove()
     {
         board.Write(move, humanPlayer);
     }
+    else
+    {
+        Console.WriteLine("Invalid move, try again.");
+        HumanPlayerMove();
+    }
 }
 
 void ComputerPlayerMove()
