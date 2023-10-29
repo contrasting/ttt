@@ -30,6 +30,7 @@ public class Board
         // remember print from top row to bottom row
         for (int y = 2; y >= 0; y--)
         {
+            Console.Write($"{y + 1} | ");
             for (int x = 0; x < 3; x++)
             {
                 Console.Write(_board[x, y]);
@@ -37,6 +38,7 @@ public class Board
 
             Console.Write("\n");
         }
+        Console.WriteLine("    ---\n    ABC");
     }
 
     public Board Copy()

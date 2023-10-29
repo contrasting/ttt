@@ -41,6 +41,8 @@ void ComputerPlayerMove()
     }
 }
 
+board.Print();
+
 while (analyser.GetWinner() == Player.N)
 {
     HumanPlayerMove();
