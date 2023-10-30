@@ -2,7 +2,7 @@
 
 public class Input
 {
-    public Position Read()
+    public Position ReadPosition()
     {
         Console.Write("Input position: ");
         
@@ -13,7 +13,22 @@ public class Input
         catch (Exception e)
         {
             Console.WriteLine("Error, try again.");
-            return Read();
+            return ReadPosition();
         }
+    }
+
+    public bool ReadBool()
+    {
+        Console.Write("y/n: ");
+    
+        var str = Console.ReadLine();
+    
+        if (str == null || (str != "y" && str != "n"))
+        {
+            Console.WriteLine("Error, try again.");
+            return ReadBool();
+        }
+
+        return str == "y";
     }
 }

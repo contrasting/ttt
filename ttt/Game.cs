@@ -5,6 +5,8 @@ public class Game
     private readonly Analyser _analyser;
     private readonly Board _board;
     private readonly Input _input;
+
+    private bool _humanPlaysFirst;
     
     // TODO
     private readonly Player humanPlayer = Player.X;
@@ -17,9 +19,22 @@ public class Game
         _input = input;
     }
 
+    private void WhoPlaysFirst()
+    {
+        Console.Write("Would you like to play first? ");
+        _humanPlaysFirst = _input.ReadBool();
+    }
+
     public void Play()
     {
         Console.WriteLine("Welcome to TTT");
+
+        WhoPlaysFirst();
+        
+        if (!_humanPlaysFirst)
+        {
+            ComputerPlayerMove();
+        }
         
         _board.Print();
 
@@ -37,7 +52,7 @@ public class Game
     
     private void HumanPlayerMove()
     {
-        var move = _input.Read();
+        var move = _input.ReadPosition();
         if (_analyser.IsValidMove(move))
         {
             _board.Write(move, humanPlayer);
