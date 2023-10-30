@@ -123,9 +123,12 @@ public class Analyser
             return -1;
         }
 
-        // neither winning nor losing move. Continue evaluating
         var evaluations = new List<float>();
 
+        // if this move is neither winning nor losing, then its evaluation is the negative of the average evaluations
+        // for all the opponent's possible moves
+        // why not max evaluation (opponent plays optimal move)? Because it assumes rational opponent, which discards
+        // useful information about good positions
         foreach (var vm in analyser.GetValidMoves())
         {
             evaluations.Add(-1 * analyser.EvaluateMove(player.Opponent(), vm));
