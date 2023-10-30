@@ -31,4 +31,19 @@ public class Input
 
         return str == "y";
     }
+
+    public Player ReadPlayer()
+    {
+        Console.Write("X/O: ");
+        
+        var str = Console.ReadLine();
+    
+        if (str == null || (str != "X" && str != "O"))
+        {
+            Console.WriteLine("Error, try again.");
+            return ReadPlayer();
+        }
+
+        return str == "X" ? Player.X : Player.O;
+    }
 }

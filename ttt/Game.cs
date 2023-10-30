@@ -7,10 +7,8 @@ public class Game
     private readonly Input _input;
 
     private bool _humanPlaysFirst;
-    
-    // TODO
-    private readonly Player humanPlayer = Player.X;
-    private readonly Player computerPlayer = Player.O;
+    private Player _humanPlayer;
+    private Player _computerPlayer;
 
     public Game(Analyser analyser, Board board, Input input)
     {
@@ -25,11 +23,19 @@ public class Game
         _humanPlaysFirst = _input.ReadBool();
     }
 
+    private void WhoPlaysWho()
+    {
+        Console.Write("Would you like to play noughts or crosses? ");
+        _humanPlayer = _input.ReadPlayer();
+        _computerPlayer = _humanPlayer.Opponent();
+    }
+
     public void Play()
     {
         Console.WriteLine("Welcome to TTT");
 
         WhoPlaysFirst();
+        WhoPlaysWho();
         
         if (!_humanPlaysFirst)
         {
@@ -55,7 +61,7 @@ public class Game
         var move = _input.ReadPosition();
         if (_analyser.IsValidMove(move))
         {
-            _board.Write(move, humanPlayer);
+            _board.Write(move, _humanPlayer);
         }
         else
         {
@@ -69,12 +75,12 @@ public class Game
         var evaluations = new Dictionary<Position, float>();
         foreach (var vm in _analyser.GetValidMoves())
         {
-            evaluations[vm] = _analyser.EvaluateMove(computerPlayer, vm);
+            evaluations[vm] = _analyser.EvaluateMove(_computerPlayer, vm);
         }
         // https://stackoverflow.com/questions/10290838/how-to-get-max-value-from-dictionary
         // evaluations.Select(i => $"{i.Key.Pretty()}: {i.Value}").ToList().ForEach(Console.WriteLine);
         var bestMove = evaluations.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
         Console.WriteLine($"Computer plays {bestMove.Pretty()}");
-        _board.Write(bestMove, computerPlayer);
+        _board.Write(bestMove, _computerPlayer);
     }
 }
