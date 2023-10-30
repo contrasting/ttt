@@ -2,53 +2,9 @@
 
 using ttt;
 
-Console.WriteLine("Welcome to TTT");
-
-// TODO
-var humanPlayer = Player.X;
-var computerPlayer = Player.O;
-
 var board = new Board();
 var analyser = new Analyser(board);
-var game = new Game(analyser, humanPlayer);
 var input = new Input();
+var game = new Game(analyser, board, input);
 
-void HumanPlayerMove()
-{
-    var move = input.Read();
-    if (analyser.IsValidMove(move))
-    {
-        board.Write(move, humanPlayer);
-    }
-    else
-    {
-        Console.WriteLine("Invalid move, try again.");
-        HumanPlayerMove();
-    }
-}
-
-void ComputerPlayerMove()
-{
-    var evaluations = new Dictionary<Position, float>();
-    foreach (var vm in analyser.GetValidMoves())
-    {
-        evaluations[vm] = analyser.EvaluateMove(computerPlayer, vm);
-    }
-    // https://stackoverflow.com/questions/10290838/how-to-get-max-value-from-dictionary
-    var bestMove = evaluations.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-    Console.WriteLine($"Computer plays {bestMove.Pretty()}");
-    board.Write(bestMove, computerPlayer);
-}
-
-board.Print();
-
-while (analyser.GetWinner() == Player.N && analyser.GetValidMoves().Count != 0)
-{
-    HumanPlayerMove();
-    board.Print();
-    if (analyser.GetWinner() != Player.N || analyser.GetValidMoves().Count == 0) break;
-    ComputerPlayerMove();
-    board.Print();
-}
-
-Console.WriteLine($"Winner is {analyser.GetWinner()}");
+game.Play();

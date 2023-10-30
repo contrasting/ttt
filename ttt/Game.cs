@@ -2,18 +2,64 @@
 
 public class Game
 {
-    private readonly Analyser _boardAnalyser;
-    private readonly Player _playerTurn;
+    private readonly Analyser _analyser;
+    private readonly Board _board;
+    private readonly Input _input;
+    
+    // TODO
+    private readonly Player humanPlayer = Player.X;
+    private readonly Player computerPlayer = Player.O;
 
-    public Game(Analyser boardAnalyser, Player playerTurn)
+    public Game(Analyser analyser, Board board, Input input)
     {
-        _boardAnalyser = boardAnalyser;
-        if (playerTurn == Player.N)
-        {
-            throw new ArgumentException("Turn cannot be N");
-        }
-        _playerTurn = playerTurn;
+        _analyser = analyser;
+        _board = board;
+        _input = input;
     }
 
-    public Player Turn => _playerTurn;
+    public void Play()
+    {
+        Console.WriteLine("Welcome to TTT");
+        
+        _board.Print();
+
+        while (_analyser.GetWinner() == Player.N && _analyser.GetValidMoves().Count != 0)
+        {
+            HumanPlayerMove();
+            _board.Print();
+            if (_analyser.GetWinner() != Player.N || _analyser.GetValidMoves().Count == 0) break;
+            ComputerPlayerMove();
+            _board.Print();
+        }
+
+        Console.WriteLine($"Winner is {_analyser.GetWinner()}");
+    }
+    
+    private void HumanPlayerMove()
+    {
+        var move = _input.Read();
+        if (_analyser.IsValidMove(move))
+        {
+            _board.Write(move, humanPlayer);
+        }
+        else
+        {
+            Console.WriteLine("Invalid move, try again.");
+            HumanPlayerMove();
+        }
+    }
+
+    private void ComputerPlayerMove()
+    {
+        var evaluations = new Dictionary<Position, float>();
+        foreach (var vm in _analyser.GetValidMoves())
+        {
+            evaluations[vm] = _analyser.EvaluateMove(computerPlayer, vm);
+        }
+        // https://stackoverflow.com/questions/10290838/how-to-get-max-value-from-dictionary
+        // evaluations.Select(i => $"{i.Key.Pretty()}: {i.Value}").ToList().ForEach(Console.WriteLine);
+        var bestMove = evaluations.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+        Console.WriteLine($"Computer plays {bestMove.Pretty()}");
+        _board.Write(bestMove, computerPlayer);
+    }
 }
