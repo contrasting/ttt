@@ -2,9 +2,20 @@
 
 using ttt;
 
-var board = new Board();
-var analyser = new Analyser(board);
 var input = new Input();
-var game = new Game(analyser, board, input);
 
-game.Play();
+void Play()
+{
+    var board = new Board();
+    var analyser = new Analyser(board);
+    var game = new Game(analyser, board, input);
+
+    game.Play();
+    
+    Console.Write("Play again? ");
+}
+
+do
+{
+    Play();
+} while (input.ReadBool());
